@@ -18,15 +18,11 @@ public class K extends Activity {
         textView.setTextSize(40);
         textView.setTextColor(Color.BLACK);
         textView.setGravity(Gravity.CENTER);
-        textView.setText(getDeviceIpAddress());
-        setContentView(textView);
-    }
-
-    private String getDeviceIpAddress() {
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo types = connManager.getActiveNetworkInfo();
-        if (types.getType() == ConnectivityManager.TYPE_WIFI) return getWifiIp();
-        else return "not found wi-fi connection";
+        if (types.getType() == ConnectivityManager.TYPE_WIFI) textView.setText(getWifiIp());
+        else textView.setText("not found wi-fi connection");
+        setContentView(textView);
     }
 
     private String getWifiIp() {
@@ -36,6 +32,6 @@ public class K extends Activity {
             return (ip & 0xFF) + "." + ((ip >> 8) & 0xFF) + "." + ((ip >> 16) & 0xFF) + "."
                     + ((ip >> 24) & 0xFF);
         }
-        return null;
+        return "error";
     }
 }

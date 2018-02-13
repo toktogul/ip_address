@@ -7,11 +7,10 @@
 
     <application
         android:icon="@android:drawable/presence_online"
-        android:label="IP">
+        android:label="">
         <activity android:name=".K">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

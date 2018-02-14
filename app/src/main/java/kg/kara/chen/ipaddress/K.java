@@ -19,10 +19,15 @@ public class K extends Activity {
         textView.setTextColor(Color.BLACK);
         textView.setGravity(Gravity.CENTER);
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo types = connManager.getActiveNetworkInfo();
-        if (types.getType() == ConnectivityManager.TYPE_WIFI) textView.setText(getWifiIp());
-        else textView.setText("not found wi-fi connection");
+        if (connManager != null && connManager.isDefaultNetworkActive()) {
+            NetworkInfo types = connManager.getActiveNetworkInfo();
+            if (types.getType() == ConnectivityManager.TYPE_WIFI) textView.setText(getWifiIp());
+            else textView.setText("there is no wi-fi connection");
+        } else {
+            textView.setText("there is no any connection");
+        }
         setContentView(textView);
+
     }
 
     private String getWifiIp() {

@@ -41,6 +41,5 @@ public class K extends Activity {
             textView.setText("there is no any connection");
         }
         setContentView(textView);
-
     }
 }

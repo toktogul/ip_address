@@ -21,22 +21,26 @@ public class K extends Activity {
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connManager != null && connManager.isDefaultNetworkActive()) {
             NetworkInfo types = connManager.getActiveNetworkInfo();
-            if (types.getType() == ConnectivityManager.TYPE_WIFI) textView.setText(getWifiIp());
-            else textView.setText("there is no wi-fi connection");
+            if (types.getType() == ConnectivityManager.TYPE_WIFI) {
+                final WifiManager mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                if (mWifiManager != null && mWifiManager.isWifiEnabled()) {
+                    int ip = mWifiManager.getConnectionInfo().getIpAddress();
+                    String builder = String.valueOf(ip & 0xFF) +
+                            "." +
+                            ((ip >> 8) & 0xFF) +
+                            "." +
+                            ((ip >> 16) & 0xFF) +
+                            "." +
+                            ((ip >> 24) & 0xFF);
+                    textView.setText(builder);
+                } else {
+                    textView.setText("error");
+                }
+            } else textView.setText("there is no wi-fi connection");
         } else {
             textView.setText("there is no any connection");
         }
         setContentView(textView);
 
-    }
-
-    private String getWifiIp() {
-        final WifiManager mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (mWifiManager != null && mWifiManager.isWifiEnabled()) {
-            int ip = mWifiManager.getConnectionInfo().getIpAddress();
-            return (ip & 0xFF) + "." + ((ip >> 8) & 0xFF) + "." + ((ip >> 16) & 0xFF) + "."
-                    + ((ip >> 24) & 0xFF);
-        }
-        return "error";
     }
 }
